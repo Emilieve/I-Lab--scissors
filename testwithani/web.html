@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<style>
+
+#mydiv {
+  position: absolute;
+  z-index: 9;
+  text-align: center;
+  cursor: move;
+}
+
+.mydiv:hover{
+  background-color: #d91111;
+}
+
+ribbon:hover{
+    background-color: yellow;
+}
+
+#scissor {
+  width: 120px;
+  height: 80px;
+}
+
+#ribbon{
+    width: 100%;
+}
+
+
+</style>
+
+<body>
+
+<h1>Drag the scissors to cut the ribbon!</h1>
+
+<div id="original-ribbon" id = "myImg">
+    <img id="ribbon" src="original-ribbon.jpg">
+</div>
+
+<div id="mydiv">
+    <img id="scissor" src="scissor.png">
+</div>
+
+<script>
+//Make the DIV element draggagle:
+dragElement(document.getElementById("mydiv"));
+
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    elmnt.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    console.log(pos1, pos2, pos3, pos4)
+    if(pos3>70 && pos3<1645){
+        if (pos4>317 && pos4<500){
+            console.log("cut!")
+            ribbon.src = "cut-ribbon.jpg"
+        }
+    }
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+</script>
+
+</body>
+</html>
